@@ -5,6 +5,15 @@ import directions
 import pandas
 import numpy as np
 
+## -------------------- WHAT IS THIS FILE? ---------------------------------
+## This file is able to process all data from all trials in UserTestTrackingData, can create each csv, and executes filters 
+## and data implementations from other files to combine to one big data frame that can do everything.
+## uncomment lines in each csv segment to overwrite that particular csv.
+## if you want to plot images of the velocities, look at the end of the file on how to do it, 
+## or see genVelocity.py to plot for specific files.
+## if working with new data, set your seperator ; or , for example, and header files first in filterdata.py
+## then first run it through genTrajectory-interactive-trajectory-loopfiles.py to cut the data after the end experiment
+
 def calculateAverages(dfs, onlyMoving):
     for i in range(0, len(dfs["df"])):
         avgPlayerSpeed, avgLocSpeed = genVelocity.calcAvgLocomotionVel(dfs['df'][i], onlyMoving)
@@ -12,9 +21,14 @@ def calculateAverages(dfs, onlyMoving):
         dfs['avgPlayerVel'].append(avgPlayerSpeed)
 
 
-
+# This will contain all dataframes, for each subjectnr, and locomotion technique, 
+# and also calculates some calculated variables over the entire trial such as average 
+# velocities, and of course the dataframe df for the trial itself.
 dataframes = {'lt': [], 'subjectnr': [], 'df': [], 'avgLocVel':[], 'avgPlayerVel':[]}
 
+# Loads and organizes the dataframes, and calculates some extra columns for further processing
+# If new data, set your seperator and header of the data files in filterData before executing!
+# Enable verbal to see what is happening.
 filterdata.verbal = False
 filterdata.LoadAndFilterFolder("UserTestTrackingData", dataframes["df"], dataframes["subjectnr"], dataframes['lt'])
 
@@ -57,7 +71,7 @@ for idf, df in enumerate(dataframes["df"]):
 ####################################################################
 
 
-
+######################### Preprocessing for direction analysis. This was not further used in the thesis since it gave redundant results, and resulted in confusion for readers ##############################
 directionDataframe = allcontainingDataFrame[[
     "SubjectNr", 
     "LocomotionTechnique", 
@@ -74,6 +88,8 @@ directionDataframe = allcontainingDataFrame[[
     ]].copy()
 #print(directionDataframe)
 #directionDataframe.to_csv("direction_analysis.csv", encoding='utf-8') # uncomment to overwrite csv
+#######################################################################################
+
 
 calculateAverages(dataframes, True)
 print(pandas.DataFrame(data=dataframes))
@@ -85,15 +101,15 @@ for df in dataframes["df"]:
     df['dt'] = dtlist * 100 - 2.25
 
 
-# What would you like to plot?
+# What variables would you like to plot over time? You can see any
 genVelocity.clearData()
 #genVelocity.addData('PlayerHorSpeed', 'Player speed')
 #genVelocity.addData('LLegPosY', "Left leg height")
 #genVelocity.addData('RLegPosY', "Right leg height")
 genVelocity.addData('LLHorSpeed', "Left Foot horizontal")
+genVelocity.addData('RLHorSpeed', "Right Foot horizontal")
 genVelocity.addData('EWMA_Left_Non_Abs', "EWMA Left Foot horizontal")
 genVelocity.addData('EWMA_Right_Non_Abs', "EWMA Right Foot horizontal")
-genVelocity.addData('RLHorSpeed', "Right Foot horizontal")
 genVelocity.addData('LocomotionSpeed', 'Locomotion speed')
 #genVelocity.addData('dirAngleRad', 'world direction radians')
 #genVelocity.addData('LeftFootPitch', 'Left foot pitch')

@@ -1,3 +1,6 @@
+## testfile to evaluate trackerloss related values from one single test data.
+## the full csv is calculated in allData.py
+
 import filterdata
 
 import pandas

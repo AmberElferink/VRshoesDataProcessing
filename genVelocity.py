@@ -1,3 +1,8 @@
+## This scripts has functions to quickly generate a plot over time for a single trial
+## You can add multiple variables to pointSetsX, pointSetsY, and the labelSets to generate all of these in the same plot.
+
+
+
 import filterdata
 
 import numpy as np
@@ -51,7 +56,9 @@ def specificVelocityPlot(dfs, locomotionTechnique, subject):
 
 
 # returns PlayerHorSpeed and LocomotionSpeed avg
-#dontshow is optional mask such as:    dontShow = dataset['isMoving'] == False                 #dontShow = False #if you do not want to filter 
+#dontshow is optional mask such as:    dontShow = dataset['isMoving'] == False  
+#that will only plot values for datapoints where isMoving is true (not show the datapoints where isMoving is false).   
+#if you do not want to filter, set:    dontShow = False 
 def calcAvgLocomotionVel(df, onlyMoving=True):
     dontShow = False
     if onlyMoving:

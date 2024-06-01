@@ -1,8 +1,9 @@
 # This script loops through all the TrackingData files
 # It shows the plot with a slider to adjust the end time so you can see the trajectory growing.
 # This is done so the data could be cut when the experiment was over, since sometimes did didn't happen automatically.
-# Pressing Space, all data in the file loaded is DELETED after the time of the slider setting. CAREFUL IT TRULY DESTROYS DATA ON DISK
+# Pressing Space, all data in the file loaded is DELETED after the time of the slider setting. CAREFUL AND MAKE A BACKUP: IT TRULY DESTROYS DATA ON DISK
 # Clicking cross shows the next plot.
+# in our work it was cut to the middle of the last curve.
 
 import os
 from pathlib import Path

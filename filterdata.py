@@ -1,8 +1,12 @@
-# Note: raw out of Unity, there was an extra line on top of the data with some info on thresholds and stuff, and it had ; as delimiter
-# Then later this was overwritten of TrackerData files by pandas for setting the times users reached the end and discarding the rest of the data.
-# So if you get a "KeyError", make sure that the below settings are correct:
+# Loads and organizes the dataframes, and calculates some extra columns for further processing
+# If new data, set your seperator and header of the data files in filterData before executing!
+
+
+# If you get a "KeyError", make sure that the below settings are correct:
 # If straight from Unity (not a 0_TrackerData file in UserTestTrackingData in the python folder), set sep=";", header = 1
 # If from the files here ( a 0_TrackerData file in UserTestTrackingData in the python folder), set sep=",", header = 0
+# Raw out of Unity, there was an extra line on top of the data with some info on thresholds and stuff, and it had ; as delimiter
+# Then later this was overwritten of TrackerData files by pandas for setting the times users reached the end and discarding the rest of the data.
 
 import pandas
 import math
@@ -18,7 +22,7 @@ verbal = True
 
 def importFile(fileName):
     print("reading " + fileName)
-    return pandas.read_csv(fileName,  sep=",",header=0,index_col=False, dtype = {
+    return pandas.read_csv(fileName,  sep=",",header=0,index_col=False, dtype = {  # change your sep and header!
 "Task": str,
 "Timestamp": str,
 "SecSinceStart": float,
