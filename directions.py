@@ -2,7 +2,7 @@ import filterdata
 import math
 import numpy as np
 import pandas as pd
-import genVelocity
+import genSpeed
 
 #df = filterdata.filterFileToDataFrame('0_TrackingData_20230215_17133531.csv')
 

@@ -1,30 +1,31 @@
+## -------------------- WHAT IS THIS FILE? ---------------------------------
+## This file is able to process all data from all trials in UserTestTrackingData, can create each csv, and executes filters 
+## and data implementations from other files to combine to one big data frame that can do everything.
+## uncomment lines in each csv segment to overwrite that particular csv.
+## if you want to plot images of the speeds, look at the end of the file on how to do it, 
+## or see genSpeed.py to plot for specific files.
+## if working with new data, set your seperator ; or , for example, and header files first in filterdata.py
+## then first run it through genTrajectory-interactive-trajectory-loopfiles.py to cut the data after the end experiment
+
 import filterdata
-import genVelocity
+import genSpeed
 import directions
 
 import pandas
 import numpy as np
 
-## -------------------- WHAT IS THIS FILE? ---------------------------------
-## This file is able to process all data from all trials in UserTestTrackingData, can create each csv, and executes filters 
-## and data implementations from other files to combine to one big data frame that can do everything.
-## uncomment lines in each csv segment to overwrite that particular csv.
-## if you want to plot images of the velocities, look at the end of the file on how to do it, 
-## or see genVelocity.py to plot for specific files.
-## if working with new data, set your seperator ; or , for example, and header files first in filterdata.py
-## then first run it through genTrajectory-interactive-trajectory-loopfiles.py to cut the data after the end experiment
 
 def calculateAverages(dfs, onlyMoving):
     for i in range(0, len(dfs["df"])):
-        avgPlayerSpeed, avgLocSpeed = genVelocity.calcAvgLocomotionVel(dfs['df'][i], onlyMoving)
-        dfs['avgLocVel'].append(avgLocSpeed)
-        dfs['avgPlayerVel'].append(avgPlayerSpeed)
+        avgPlayerSpeed, avgLocSpeed = genSpeed.calcAvgLocomotionSpeed(dfs['df'][i], onlyMoving)
+        dfs['avgLocSpeed'].append(avgLocSpeed)
+        dfs['avgPlayerSpeed'].append(avgPlayerSpeed)
 
 
 # This will contain all dataframes, for each subjectnr, and locomotion technique, 
 # and also calculates some calculated variables over the entire trial such as average 
 # velocities, and of course the dataframe df for the trial itself.
-dataframes = {'lt': [], 'subjectnr': [], 'df': [], 'avgLocVel':[], 'avgPlayerVel':[]}
+dataframes = {'lt': [], 'subjectnr': [], 'df': [], 'avgLocSpeed':[], 'avgPlayerSpeed':[]}
 
 # Loads and organizes the dataframes, and calculates some extra columns for further processing
 # If new data, set your seperator and header of the data files in filterData before executing!
@@ -102,28 +103,29 @@ for df in dataframes["df"]:
 
 
 # What variables would you like to plot over time? You can see any
-genVelocity.clearData()
-#genVelocity.addData('PlayerHorSpeed', 'Player speed')
-#genVelocity.addData('LLegPosY', "Left leg height")
-#genVelocity.addData('RLegPosY', "Right leg height")
-genVelocity.addData('LLHorSpeed', "Left Foot horizontal")
-genVelocity.addData('RLHorSpeed', "Right Foot horizontal")
-genVelocity.addData('EWMA_Left_Non_Abs', "EWMA Left Foot horizontal")
-genVelocity.addData('EWMA_Right_Non_Abs', "EWMA Right Foot horizontal")
-genVelocity.addData('LocomotionSpeed', 'Locomotion speed')
-#genVelocity.addData('dirAngleRad', 'world direction radians')
-#genVelocity.addData('LeftFootPitch', 'Left foot pitch')
-#genVelocity.addData('AllTrackersWorking', 'All trackers working')
-#genVelocity.addData('dt', 'deltaTime logging (centi seconds)')
-#genVelocity.addData('headAngleRad', 'Head rotation')
-#genVelocity.addData('StandingLeadingFootNr', 'right: 1.5, left: -1.5, none: 0')
+genSpeed.clearData()
+#genSpeed.addData('PlayerHorSpeed', 'Player speed')
+#genSpeed.addData('LLegPosY', "Left leg height")
+#genSpeed.addData('RLegPosY', "Right leg height")
+genSpeed.addData('LLHorSpeed', "Left Foot horizontal")
+genSpeed.addData('RLHorSpeed', "Right Foot horizontal")
+genSpeed.addData('EWMA_Left_Non_Abs', "EWMA Left Foot horizontal")
+genSpeed.addData('EWMA_Right_Non_Abs', "EWMA Right Foot horizontal")
+genSpeed.addData('LocomotionSpeed', 'Locomotion speed')
+#genSpeed.addData('dirAngleRad', 'world direction radians')
+#genSpeed.addData('LeftFootPitch', 'Left foot pitch')
+#genSpeed.addData('AllTrackersWorking', 'All trackers working')
+#genSpeed.addData('dt', 'deltaTime logging (centi seconds)')
+#genSpeed.addData('headAngleRad', 'Head rotation')
+#genSpeed.addData('StandingLeadingFootNr', 'right: 1.5, left: -1.5, none: 0')
 
 
-#genVelocity.multipleVelocityPlots(dataframes, "StandingFootVelocity")
+#genSpeed.multipleSpeedPlots(dataframes, "StandingFootVelocity")
 
 
 
-# Uncommenting this will plot all in succession, meaning you will get 80 popups!!!. You can also just input one of them replacing the for loop below.
+# Uncommenting this will plot all in succession, meaning you will get 80 popups, clicking through them one by one!!!
+# You can also just input one of them replacing the for loop below, or plot in genSpeed.py
 # for i in range(0, len(dfs)):
-#     genVelocity.plotVelocities(dfs[i], "LT: " + locomotionTechniques[i] + "Subject: " + subjectNrs[i])
+#     genSpeed.plotSpeed(dfs[i], "LT: " + locomotionTechniques[i] + "Subject: " + subjectNrs[i])
 

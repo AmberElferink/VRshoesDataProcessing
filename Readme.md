@@ -9,8 +9,14 @@ Use Anaconda to manage multiple python versions/packages on your pc.
 The anaconda environment settings and installed packages are given in anaconda_environment.yaml, 
 and can be directly imported via the Anaconda Navigator GUI to create an environment that can run this project.
 Python version: 3.10.12
+I opened the folder in VScode, but you can use an editor of your choosing.
+If using VScode, I recommend installing the Python, Python Debugger, and Pylance extensions. Set the Anaconda environment there as interpreter Ctrl+Shift+P,
 
 ## What is in what file?
+
+### Loading an individual file
+Note, in some files only a single data file is loaded (for example genTrajectory): `df = filterdata.filterFileToDataFrame('UserTestTrackingData/AverageShoes/2/Scenario2_20230404_10371816/0_TrackingData_20230404_10371816.csv')`. In that case, you can get the path if you are working in VScode, by navigating to the file you want to load > Right click > Copy Relative path, paste it, and REPLACE \ by /. If you don't, it will throw an error not explaining what is wrong!
+
 ### UserTestTrackingData folder
 The UserTestTrackingData contains the data for the user from the experiment. 
 It's subfolder have data organized as: 
@@ -34,5 +40,5 @@ Loads all data from UserTestTrackingData, and delivers all csv files and can plo
 This was a test file that can show data relevant to tracking loss for a single data file.
 The full csv is calculated in allData.py.
 
-### genVelocity.py
+### genSpeed.py
 

@@ -1,7 +1,8 @@
 ## This scripts has functions to quickly generate a plot over time for a single trial
-## You can add multiple variables to pointSetsX, pointSetsY, and the labelSets to generate all of these in the same plot.
+## pointSetsX is usally time. You can add multiple variables to pointSetsY, and the labelSets to generate all of these in the same plot over time.
 
-
+## LocomotionSpeed vs PlayerSpeed: PlayerSpeed also includes motion of the user moving physically from the center of the room, 
+## while LocomotionSpeed only considers the speed from the tracker calculation.
 
 import filterdata
 
@@ -21,13 +22,13 @@ yaxisRange = 'RLHorSpeed'
 ystep = 0.5
 xstep = 2
 
-# Log pointsets. Here you can define what is plotted in plotVelocities
+# Log pointsets. Here you can define what is plotted in plotSpeed
 pointSetsX = 'SecFromFullStart'
 pointSetsY =  ['RLHorSpeed', 'LLHorSpeed', "EWMA_Both_Non_Abs"] #'PlayerHorSpeed', 'LocomotionSpeed', 'EWMA_Left_Non_Abs', 'EWMA_Right_Non_Abs' 
 labelSets = ['Right Leg horizontal speed', 'Left Leg horizontal speed', "EWMA_Both_Non_Abs"] #'HeadHorSpeedVR', 'Locomotion speed', 'EWMA_Left_Non_Abs', 'EWMA_Right_Non_Abs'
 
-# genVelocity.addData('EWMA_Left_Non_Abs', "EWMA Left Foot horizontal")
-# genVelocity.addData('EWMA_Right_Non_Abs', "EWMA Right Foot horizontal")
+# genSpeed.addData('EWMA_Left_Non_Abs', "EWMA Left Foot horizontal")
+# genSpeed.addData('EWMA_Right_Non_Abs', "EWMA Right Foot horizontal")
 
 #yes I know I know, don't use global variables. But it's quick
 def clearData():
@@ -43,15 +44,15 @@ def addData(dfKey, label):
 
 #generates multiple plots for different runs. See example in allData.py
 # dataframes = {'lt': [], 'subjectnr': [], 'df': []}
-def multipleVelocityPlots(dfs, locomotionTechnique):
+def multipleSpeedPlots(dfs, locomotionTechnique):
     for i in range(0, len(dfs["df"])):
         if(dfs['lt'][i] == locomotionTechnique):
-            plotVelocities(dfs['df'][i], "LT: " + dfs['lt'][i] + " Subject: " + dfs['subjectnr'][i])
+            plotSpeed(dfs['df'][i], "LT: " + dfs['lt'][i] + " Subject: " + dfs['subjectnr'][i])
 
-def specificVelocityPlot(dfs, locomotionTechnique, subject):
+def specificSpeedPlot(dfs, locomotionTechnique, subject):
     for i in range(0, len(dfs["df"])):
         if(dfs['lt'][i] == locomotionTechnique and dfs['subjectnr'][i] == subject):
-            plotVelocities(dfs['df'][i], "LT: " + dfs['lt'][i] + " Subject: " + dfs['subjectnr'][i])
+            plotSpeed(dfs['df'][i], "LT: " + dfs['lt'][i] + " Subject: " + dfs['subjectnr'][i])
 
 
 
@@ -59,7 +60,7 @@ def specificVelocityPlot(dfs, locomotionTechnique, subject):
 #dontshow is optional mask such as:    dontShow = dataset['isMoving'] == False  
 #that will only plot values for datapoints where isMoving is true (not show the datapoints where isMoving is false).   
 #if you do not want to filter, set:    dontShow = False 
-def calcAvgLocomotionVel(df, onlyMoving=True):
+def calcAvgLocomotionSpeed(df, onlyMoving=True):
     dontShow = False
     if onlyMoving:
         dontShow = df['isMoving'] == False
@@ -70,9 +71,9 @@ def calcAvgLocomotionVel(df, onlyMoving=True):
 
 
 
-#calcAvgLocomotionVel(filterdata.filterFileToDataFrame('0_TrackingData_20230215_17133531.csv'))
+#calcAvgLocomotionSpeed(filterdata.filterFileToDataFrame('0_TrackingData_20230215_17133531.csv'))
 
-def plotVelocities(df, title):
+def plotSpeed(df, title):
     task1 = df[df['Task'].str.contains("MW")]
     task2 = df[df['Task'].str.contains("BW")]
     task3 = df[df['Task'].str.contains("CW")]
@@ -84,7 +85,7 @@ def plotVelocities(df, title):
     #     display(df[['isMoving', 'MoveSectionLabels', 'avgMovingSection']].head(300))
 
     dataset = df
-    dontShow = False # dataset['isMoving'] == False #dontShow = False #if you do not want to filter 
+    dontShow = False # to only plot data when moving: # dataset['isMoving'] == False. #if you do not want to filter: #dontShow = False 
     #for calculations, to work with the unfiltered: dataset[~dontShow]
 
 
@@ -142,4 +143,4 @@ def plotVelocities(df, title):
 
 # if this file is ran (not when used in another script), call these functions
 if __name__ == "__main__":
-    plotVelocities(filterdata.filterFileToDataFrame('UserTestTrackingData/StandingFootVelocity/1/Scenario2_20230403_16213153/0_TrackingData_20230403_16213153.csv'), "Speed (m/s) example single participant for a few steps")
+    plotSpeed(filterdata.filterFileToDataFrame('UserTestTrackingData/StandingFootVelocity/1/Scenario2_20230403_16213153/0_TrackingData_20230403_16213153.csv'), "Speed (m/s) example single participant for a few steps")
