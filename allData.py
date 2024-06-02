@@ -101,6 +101,9 @@ for df in dataframes["df"]:
     dtlist = np.insert(dtlist, 0, 0, 0)
     df['dt'] = dtlist * 100 - 2.25
 
+print("column headers:")
+print("\n".join(allcontainingDataFrame.columns.values.tolist()))
+
 
 # What variables would you like to plot over time? You can see any
 genSpeed.clearData()
