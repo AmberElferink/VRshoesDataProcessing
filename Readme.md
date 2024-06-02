@@ -1,24 +1,36 @@
 # What is this?
-This is a repository to process tracking data from the VR shoes experiment (LINKKKKKK), to plots over time and csv files ready for statistical analysis in R. It can calculate speed plots, calculate csv files for statistical analysis on completionTime and trackerlosses. It also has a function to manually clip the data to the end of the experiment based on the trajectory.
+This is a repository to process tracking data from the VR shoes experiment (LINKKKKKK to full paper), to plots over time and csv files ready for statistical analysis in R. It can calculate speed plots, calculate csv files for statistical analysis on completionTime and trackerlosses. It also has a function to manually clip the data to the end of the experiment based on the trajectory.
 
-- For statistics processing in R, see (LINNKKKKKKKK).
-- For the virtual Unity environment in the user test that gathered the data see (LINNKKKKKKK).
+- This project: Processing tracking data from Unity to plots and csv files ready for statistic analysis: [Processing tracker data Github](https://github.com/AmberElferink/VRshoesDataProcessing)
+- For statistics processing in R, see [VR shoes R statistics processing Github](https://github.com/AlexisDerumigny/Reproducibility-VR-Project).
+- For the virtual Unity environment in the user test that the users walked in and gathered the tracking data see [VR shoes Unity Environment Github](https://github.com/AmberElferink/LocomotionEvaluation).
+
+
+## Raw User Experience data / Questionnaires
+
+- [Raw Data Consent form + demographics + Habituation questions Google Spreadsheet](https://docs.google.com/spreadsheets/d/18L1FDxcECkfh0YWAIcpaJXAqzQvc4uHcm83MKERbGXg/edit?usp=sharing)
+- [Raw Data UX answers for each trial](https://docs.google.com/spreadsheets/d/1mwZUULM_gU6-xjh3AGX8X6qKFkpROcqetkRowhyOwM8/edit?usp=sharing)
+
+
+If you want to use the questionnaire in your own experiment, you can copy the form for your own use with the following links:
+- [Consent form + demographics + Habituation Google Form ](https://docs.google.com/forms/d/16HUnzGaGV9iMNdykEuPBm8y9UqQQHBMW23HlNOklhPY/copy)
+- [UX questions for each trial Google Form](https://docs.google.com/forms/d/1SUaqCdrhtiCeiOQPW767yPz0z7UIzTfgg31t2_o47Wo/copy)
+
 
 ## How to install
 Use Anaconda to manage multiple python versions/packages on your pc.
 The anaconda environment settings and installed packages are given in anaconda_environment.yaml, 
 and can be directly imported via the Anaconda Navigator GUI to create an environment that can run this project.
-Python version: 3.10.12
+Python version: 3.10.12.
 I opened the folder in VScode, but you can use an editor of your choosing.
 If using VScode, I recommend installing the Python, Python Debugger, and Pylance extensions. Set the Anaconda environment there as interpreter Ctrl+Shift+P,
 
 ## What is in what file?
 
-### Loading an individual file
-Note, in some files only a single data file is loaded (for example genTrajectory): `df = filterdata.filterFileToDataFrame('UserTestTrackingData/AverageShoes/2/Scenario2_20230404_10371816/0_TrackingData_20230404_10371816.csv')`. In that case, you can get the path if you are working in VScode, by navigating to the file you want to load > Right click > Copy Relative path, paste it, and REPLACE \ by /. If you don't, it will throw an error not explaining what is wrong!
 
-### Loading multiple/all files
-This is done in allData.py. See examples there :)
+
+## Tracking processing
+From the python scripts, the csv files are generated for further processing in R. Below describes the raw files, and the python files to generate the plots and these csvs.
 
 ### UserTestTrackingData folder
 The UserTestTrackingData contains the data for the user from the experiment. 
@@ -26,6 +38,12 @@ It's subfolder have data organized as:
 `direction algorithm (locomotion technique / LT) > subject number > Folder with data.`
 
 This folder with data often contains `0_TrackerData` (we use this), and extra files, which are not used in our analysis, but provided by the previous Cannovo et al (2021) work based on each task. While 0_TrackerData contains all tracker data for postprocessing needs, the folder also contains a file called `rawTrackers`, which is direct position/rotation data from the trackers in Unity, which can be used to directly replay the tracker motion in Unity for that participant via the AnimateTrackers script in Unity.
+
+### Loading an individual file
+Note, in some files only a single data file is loaded (for example genTrajectory): `df = filterdata.filterFileToDataFrame('UserTestTrackingData/AverageShoes/2/Scenario2_20230404_10371816/0_TrackingData_20230404_10371816.csv')`. In that case, you can get the path if you are working in VScode, by navigating to the file you want to load > Right click > Copy Relative path, paste it, and REPLACE \ by /. If you don't, it will throw an error not explaining what is wrong!
+
+### Loading multiple/all files
+This is handled by filterdata.py, and called in allData.py. See examples there :)
 
 ### filterdata.py
 This has functions related to load and process folders or files in UserTestTrackingData to dataframes usable in python. It can also calculates extra variables such as dt's (delta times), speed data based on real tracked data, filtered speed data based on if motion is active or not, and more.
@@ -38,11 +56,12 @@ These functions are used to load and preprocess files/folders in other scripts.
 
 ### allData.py
 Loads all data from UserTestTrackingData, and delivers all csv files and can plot speeds.
-To see all data columns loaded:
+Near the end of the file, we print all collumn names. Each column is explained further below.
 ```
 print("column headers:")
-print(allcontainingDataFrame.columns.values.tolist())
+print("\n".join(allcontainingDataFrame.columns.values.tolist()))
 ```
+Uncomment the relevant lines to overwrite the .csv files you want.
 
 ### trackingloss.py
 This was a test file that can show data relevant to tracking loss for a single data file.
@@ -58,7 +77,7 @@ This has functions to plot speeds and variables over time. You can add columns t
 ## Definitions of columns
 To get any of this data, go to allData.py and process the data there: `allcontainingDataFrame['MyColName']`, with more examples on how to filter in allData.py.
 
-### Other cols in allcontainingDataFrame (in allData.py):
+#### General cols in allcontainingDataFrame (in allData.py):
 - col `SecSinceStart` is seconds since the start of the task in the trial. Since we don't consider tasks important, there is also `SecFromFullStart` in calculates the seconds from the start of the full trial.
 
 - `SubjectNr`: subject number
