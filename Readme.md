@@ -12,6 +12,7 @@ This is a repository to process tracking data from the VR shoes experiment (LINK
 - [Raw Data UX answers for each trial](https://docs.google.com/spreadsheets/d/1mwZUULM_gU6-xjh3AGX8X6qKFkpROcqetkRowhyOwM8/edit?usp=sharing)
 - [Raw SSQ scores and calculation](https://docs.google.com/spreadsheets/d/1Z6ZEOBB_HKG5OKnwlWWeoUAu6VnMPOgTiw3vIsVPwAk/edit?usp=sharing)
 - [Google Sheets algorithm design iterations with Pilot data](https://docs.google.com/spreadsheets/d/19XF_UmUEpfjw7bddJwMBGtok1HHl3Nf5debJBxfp_nA/edit?usp=sharing)
+- [Google Sheets walking at roomscale with shoes off](https://docs.google.com/spreadsheets/d/1Oq6b4OM6j8d3eRfq8EBd69d8p69u7yo5oLUwFRbnjVI/edit?usp=sharing)
 
 
 If you want to use the questionnaire in your own experiment, you can copy the form for your own use with the following links:
