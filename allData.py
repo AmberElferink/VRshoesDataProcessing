@@ -15,11 +15,6 @@ import pandas
 import numpy as np
 
 
-def calculateAverages(dfs, onlyMoving):
-    for i in range(0, len(dfs["df"])):
-        avgPlayerSpeed, avgLocSpeed = genSpeed.calcAvgLocomotionSpeed(dfs['df'][i], onlyMoving)
-        dfs['avgLocSpeed'].append(avgLocSpeed)
-        dfs['avgPlayerSpeed'].append(avgPlayerSpeed)
 
 
 # This will contain all dataframes, for each subjectnr, and locomotion technique, 
@@ -88,12 +83,24 @@ directionDataframe = allcontainingDataFrame[[
     "isMoving"
     ]].copy()
 #print(directionDataframe)
-#directionDataframe.to_csv("direction_analysis.csv", encoding='utf-8') # uncomment to overwrite csv
+directionDataframe.to_csv("direction_analysis.csv", encoding='utf-8') # uncomment to overwrite csv
 #######################################################################################
 
+############################## Preprocessing for average speed analysis #####################################################################################################
+avgSpeedDataframe = pandas.DataFrame(columns = ['avgLocSpeed', 'avgPlayerSpeed', 'LocomotionTechnique', 'SubjectNr'])
+onlyMoving = True # only consider the average speed when the user is moving
+for i, df in enumerate(dataframes["df"]):
+    avgPlayerSpeed, avgLocSpeed = genSpeed.calcAvgLocomotionSpeed(dataframes["df"][i], onlyMoving)
+    new_row = {'avgLocSpeed':avgLocSpeed, 'avgPlayerSpeed':avgPlayerSpeed, 'LocomotionTechnique':df["LocomotionTechnique"][0], 'SubjectNr':df["SubjectNr"][0]}
+    avgSpeedDataframe = avgSpeedDataframe.append(new_row, ignore_index=True)
+    # dfs['avgLocSpeed'].append(avgLocSpeed)
+    # dfs['avgPlayerSpeed'].append(avgPlayerSpeed)
+    
 
-calculateAverages(dataframes, True)
-print(pandas.DataFrame(data=dataframes))
+#print(pandas.DataFrame(data=avgSpeedDataframe))
+avgSpeedDataframe.reset_index(drop=True)
+avgSpeedDataframe.to_csv("avg_speed_analysis.csv", encoding='utf-8') # uncomment to overwrite csv
+##################################################################################################################################################
 
 for df in dataframes["df"]:
     directions.processDirections(df)
